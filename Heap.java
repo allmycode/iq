@@ -5,16 +5,19 @@ public class Heap {
 
     public Heap(int[] a) {
         this.a = a;
-        this.l = a.length-1;
+        this.l = a.length;
         buildMaxHeap();
     }
 
     public static void main(String[] args) {
-        new Heap(new int[]{0,3,5, 6, 2, 2,2 ,2,6,9,2,8,7}).print();
+        int[] a = new int[args.length];
+        for (int i = 0; i < args.length; i++)
+            a[i] = Integer.parseInt(args[i]);
+        new Heap(a).print();
     }
 
     public void print() {
-        for (int i = 1; i < l; i++) {q
+        for (int i = 0; i < l; i++) {
             System.out.print(a[i] + "\t");
         }
         
@@ -22,7 +25,7 @@ public class Heap {
     }
 
     private void maxHeapify(int i) {
-        int left = i*2;
+        int left = (i+1)*2;
         int right = left + 1;
         int largest = i;
 
@@ -35,15 +38,15 @@ public class Heap {
         if (largest != i) 
             swap(largest, i);
 
-        if (i > 1) 
-            maxHeapify(i/2);
+        if (i > 0) 
+            maxHeapify((i+1)/2-1);
     }
 
     public boolean checkHeap(int i) {
-        if (i > l/2) 
+        if ((i+1) > l/2) 
             return true;
         
-        int left = i*2;
+        int left = (i+1)*2;
         int right = left + 1;
         
         return (left < l && a[i] < a[left]) || (right < l && a[i] < a[right]) ?
