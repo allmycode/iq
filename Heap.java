@@ -1,63 +1,67 @@
 public class Heap {
 
     int[] a;
-    int l;
+    boolean max;
 
-    public Heap(int[] a) {
+    public Heap(int[] a, boolean max) {
         this.a = a;
-        this.l = a.length;
-        buildMaxHeap();
+        this.max = max;
+        buildHeap();
     }
 
     public static void main(String[] args) {
-        int[] a = new int[args.length];
-        for (int i = 0; i < args.length; i++)
-            a[i] = Integer.parseInt(args[i]);
-        new Heap(a).print();
+        int[] a = new int[args.length-1];
+        for (int i = 0; i < args.length-1; i++)
+            a[i] = Integer.parseInt(args[i+1]);
+        new Heap(a, args[0].equals("max")).print();
     }
 
     public void print() {
-        for (int i = 0; i < l; i++) {
+        for (int i = 0; i < a.length; i++) {
             System.out.print(a[i] + "\t");
         }
         
         System.out.println(" -> " + checkHeap(1));
     }
 
-    private void maxHeapify(int i) {
+    private void heapify(int i) {
         int left = (i+1)*2;
         int right = left + 1;
         int largest = i;
 
-        if (left < l && a[largest] < a[left])
+        if (cp(largest, left))
             largest = left;
         
-        if (right < l && a[largest] < a[right]) 
+        if (cp(largest, right))
             largest = right;
         
         if (largest != i) 
             swap(largest, i);
 
         if (i > 0) 
-            maxHeapify((i+1)/2-1);
+            heapify((i+1)/2-1);
     }
 
     public boolean checkHeap(int i) {
-        if ((i+1) > l/2) 
+        if ((i+1) > a.length/2) 
             return true;
         
         int left = (i+1)*2;
         int right = left + 1;
         
-        return (left < l && a[i] < a[left]) || (right < l && a[i] < a[right]) ?
+        return cp(i, left) || cp(i, right) ?
             false :
             checkHeap(left) && checkHeap(right);
     }
 
-    public void buildMaxHeap() {
-        for (int i = l/2; i > 0; i--) {
-            maxHeapify(i);
+    public void buildHeap() {
+        for (int i = a.length/2; i > 0; i--) {
+            heapify(i);
         }
+    }
+
+    private boolean cp(int p, int c) {
+        return c < a.length && (max ? a[p] < a[c] : a[p] > a[c]);
     }
 
     private void swap(int i, int j) {
