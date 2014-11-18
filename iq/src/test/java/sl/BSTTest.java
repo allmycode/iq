@@ -43,4 +43,15 @@ public class BSTTest {
     public void twoNode2() {
         Assert.assertThat(fromInOrder(node(700, null, node(800))), is(asList(700, 800)));
     }
+
+    @Test 
+    public void complex() {
+        Assert.assertThat(fromInOrder(
+                                      node(1000, 
+                                           node(900, node(800, node(700), null), node(950)), 
+                                           node(1100, 
+                                                node(1090, node(1080, null, node(1081, null, node(1082))), null), 
+                                                node(1200, null, node(1300))))), 
+                          is(asList(700, 800, 900, 950, 1000, 1080, 1081, 1082, 1090, 1100, 1200, 1300)));
+    }
 }
